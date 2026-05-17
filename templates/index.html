@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ketemu.in — Sistem Informasi Penyelamatan Barang Kampus</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FCFCFD] text-slate-800 antialiased">
+
+    <nav class="bg-white/80 border-b border-slate-100 py-4 sticky top-0 z-50 backdrop-blur-md">
+        <div class="container mx-auto px-6 max-w-6xl flex justify-between items-center">
+            
+            <a href="/" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 bg-gradient-to-tr from-orange-600 to-amber-500 rounded-xl flex items-center justify-center shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="w-5 h-5 animate-pulse">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                    </svg>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 bg-clip-text text-transparent">
+                    ketemu<span class="text-slate-900 font-bold group-hover:text-orange-600 transition-colors">.in</span>
+                </span>
+            </a>
+            
+            <span class="text-[11px] font-bold tracking-wider uppercase text-slate-400 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100 hidden sm:block">
+                📍 Ranah Lingkungan Kampus
+            </span>
+        </div>
+    </nav>
+
+    <header class="border-b border-slate-100 bg-linear-to-b from-orange-50/40 to-transparent py-12">
+        <div class="container mx-auto px-6 max-w-6xl text-center">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight max-w-2xl mx-auto leading-tight mb-3">
+                Kehilangan sesuatu? Atau menemukan barang tak bertuan?
+            </h1>
+            <p class="text-slate-500 text-sm max-w-md mx-auto font-light mb-8">
+                Sistem informasi spasial yang menghubungkan penemu dan pemilik barang di area kampus secara akurat, aman, dan cepat.
+            </p>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/40 max-w-xl mx-auto">
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <div class="relative flex-1">
+                        <span class="absolute inset-y-0 left-3 flex items-center text-slate-400 text-xs">🔍</span>
+                        <input type="text" id="qr-input" placeholder="Masukkan ID atau Kode Unik Laporan (Misal: 1)..." class="w-full bg-slate-50/50 border border-slate-200 pl-8 pr-3 py-2.5 text-xs rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition focus:bg-white">
+                    </div>
+                    <button onclick="simulasiScan()" class="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-5 py-2.5 text-xs font-bold rounded-xl hover:from-orange-700 hover:to-orange-600 transition shadow-sm shadow-orange-500/10 cursor-pointer whitespace-nowrap">
+                        Lacak Laporan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 max-w-6xl">
+        <div class="grid lg:grid-cols-3 gap-10">
+            
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs sticky top-24">
+                    <h2 class="text-sm font-bold text-slate-900 mb-5 flex items-center gap-2">
+                        <span class="w-1.5 h-3 bg-orange-500 rounded-full"></span> Ajukan Formulir Laporan
+                    </h2>
+                    
+                    <form action="/tambah" method="POST" class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-semibold text-slate-500 mb-1.5">Nama / Jenis Barang</label>
+                            <input type="text" name="nama" required placeholder="Contoh: Helm Cargloss Hitam, KTM" class="w-full border border-slate-200 p-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition bg-slate-50/30 focus:bg-white">
+                        </div>
+                        
+                        <div>
+                            <label class="block font-semibold text-slate-500 mb-1.5">Klasifikasi Status</label>
+                            <select name="status" class="w-full border border-slate-200 p-2.5 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition bg-slate-50/30">
+                                <option value="Ditemukan">Saya Menemukan Barang (Ditemukan)</option>
+                                <option value="Hilang">Saya Kehilangan Barang (Hilang)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-500 mb-1.5">Titik Lokasi Spesifik</label>
+                            <input type="text" name="lokasi" required placeholder="Contoh: Meja Belajar Perpustakaan Lt. 2" class="w-full border border-slate-200 p-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition bg-slate-50/30 focus:bg-white">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-500 mb-1.5">Nama Identitas Pelapor</label>
+                            <input type="text" name="penemu" required placeholder="Masukkan nama Anda" class="w-full border border-slate-200 p-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition bg-slate-50/30 focus:bg-white">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-500 mb-1.5">Deskripsi Ciri Khusus</label>
+                            <textarea name="deskripsi" rows="3" required placeholder="Sebutkan ciri spesifik seperti warna gantungan, stiker, lecet, atau kondisi lainnya..." class="w-full border border-slate-200 p-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition bg-slate-50/30 focus:bg-white"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-slate-900 text-white p-3 rounded-xl font-bold hover:bg-orange-600 transition duration-300 mt-2 shadow-sm cursor-pointer">
+                            Publikasikan Laporan
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-sm font-bold text-slate-900 tracking-tight uppercase tracking-wider text-slate-400 text-xs">Papan Laporan Terkini</h2>
+                    <span class="flex items-center gap-1.5 text-xs font-semibold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-ping"></span> Pembaruan Aktif
+                    </span>
+                </div>
+                
+                <div class="space-y-4">
+                    {% for barang in items %}
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs hover:shadow-lg hover:border-orange-100/70 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center mb-3.5">
+                                <span class="px-2.5 py-0.5 text-[9px] font-extrabold tracking-wider uppercase rounded-md {{ 'bg-amber-50 text-amber-700 border border-amber-100' if barang.status == 'Ditemukan' else 'bg-rose-50 text-rose-700 border border-rose-100' }}">
+                                    • {{ barang.status }}
+                                </span>
+                                <span class="text-[11px] font-medium text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md">ID Laporan: #{{ barang.id }}</span>
+                            </div>
+                            <h3 class="font-bold text-base text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">{{ barang.nama }}</h3>
+                            <p class="text-xs text-slate-500 flex items-center gap-1.5 mb-3">
+                                <span class="text-orange-500">📍</span> {{ barang.lokasi_peta }}
+                            </p>
+                            <p class="text-xs text-slate-600 leading-relaxed font-light">{{ barang.deskripsi }}</p>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-slate-50 flex justify-between items-center text-xs">
+                            <span class="text-slate-400">Diunggah oleh: <span class="font-semibold text-slate-700">{{ barang.penemu }}</span></span>
+                            <a href="/item/{{ barang.id }}" class="text-orange-600 hover:text-orange-700 font-bold inline-flex items-center gap-1 group/btn transition-colors">
+                                Validasi & Hubungi <span class="group-hover/btn:translate-x-1 transition-transform">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function simulasiScan() {
+            const id = document.getElementById('qr-input').value.trim();
+            if (id) {
+                window.location.href = '/item/' + id;
+            } else {
+                alert('Silakan masukkan ID barang terlebih dahulu!');
+            }
+        }
+    </script>
+</body>
+</html>
