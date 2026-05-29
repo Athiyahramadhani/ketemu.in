@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk — ketemu.in</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#f8fafc] flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-xl max-w-sm w-full mx-4">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-black text-slate-900 tracking-tight">Masuk Aplikasi</h2>
+            <p class="text-xs text-slate-400 mt-1">Silakan masuk menggunakan akun terdaftar Anda.</p>
+        </div>
+        <form action="/login" method="POST" class="space-y-4">
+            <div>
+                <label class="block font-extrabold text-slate-500 text-[11px] uppercase tracking-wider mb-1.5">Username</label>
+                <input type="text" name="username" required placeholder="Masukkan username..." class="w-full border border-slate-200 p-3 rounded-xl text-xs bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all">
+            </div>
+            <div>
+                <label class="block font-extrabold text-slate-500 text-[11px] uppercase tracking-wider mb-1.5">Password</label>
+                <input type="password" name="password" required placeholder="••••••••" class="w-full border border-slate-200 p-3 rounded-xl text-xs bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all">
+            </div>
+            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-extrabold text-xs tracking-wider uppercase transition-all shadow-md cursor-pointer">Masuk</button>
+        </form>
+        <div class="text-center mt-6 border-t border-slate-100 pt-4">
+            <p class="text-xs text-slate-400">Belum memiliki akun? <a href="/daftar" class="text-orange-500 font-bold hover:underline">Daftar Akun Baru Sini</a></p>
+        </div>
+    </div>
+</body>
+</html>

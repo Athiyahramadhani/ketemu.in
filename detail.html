@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Obrolan Barang — ketemu.in</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .leaflet-container { border-radius: 1rem; z-index: 1; }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-slate-200 h-14 flex items-center px-6 justify-between shrink-0">
+        <a href="/" class="text-xs font-extrabold text-orange-500 hover:underline">← Kembali ke Beranda</a>
+        <span class="text-xs font-bold text-slate-500">Ruang Diskusi Barang: #{{ item.id }}</span>
+    </header>
+
+    <div class="flex-1 max-w-5xl w-full mx-auto p-4 grid grid-cols-1 md:grid-cols-12 gap-4 overflow-hidden">
+        
+        <div class="md:col-span-5 bg-white p-5 rounded-2xl border border-slate-200 flex flex-col gap-3 shadow-xs overflow-y-auto max-h-[82vh]">
+            <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded border bg-orange-50 text-orange-700 border-orange-100 self-start">{{ item.status }}</span>
+            <h2 class="text-lg font-black text-slate-900 capitalize">{{ item.nama }}</h2>
+            
+            {% if item.foto %}
+            <img src="/static/uploads/{{ item.foto }}" class="w-full h-44 object-cover rounded-xl border">
+            {% endif %}
+            
+            <div class="text-xs space-y-3">
+                <p class="text-slate-500"><strong class="text-slate-700 block mb-0.5">📝 Keterangan Ciri:</strong> {{ item.deskripsi }}</p>
+                <p class="text-slate-500"><strong class="text-slate-700 block mb-0.5">📍 Lokasi Kejadian:</strong> {{ item.lokasi_peta }}</p>
+                
+                <div>
+                    <label class="block font-extrabold text-slate-400 text-[10px] uppercase tracking-wider mb-1">Visual Peta Lokasi Barang</label>
+                    <div id="map-detail" class="w-full rounded-xl border border-slate-200 shadow-sm" style="height: 160px;"></div>
+                </div>
+
+                <a href="https://www.google.com/maps/search/?api=1&query={{ item.lat }},{{ item.lon }}" target="_blank" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-xl font-extrabold text-center block shadow-sm text-xs tracking-wide">
+                    🧭 BUKA RUTE NAVIGASI (GOOGLE MAPS)
+                </a>
+
+                {% if username == item.penemu %}
+                <div class="pt-2 border-t border-slate-100">
+                    <a href="/hapus/{{ item.id }}" onclick="return confirm('Apakah laporan ini diselesaikan? Data akan dihapus permanent.')" class="w-full text-center block bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-xl font-extrabold text-xs shadow-xs">
+                        ✅ Selesai / Sudah Ketemu Pemiliknya
+                    </a>
+                </div>
+                {% endif %}
+                
+                <p class="text-slate-400 text-[11px]">Dilaporkan oleh: <strong class="text-slate-600">@{{ item.penemu }}</strong></p>
+            </div>
+        </div>
+
+        <div class="md:col-span-7 bg-white rounded-2xl border border-slate-200 flex flex-col shadow-xs overflow-hidden h-[75vh]">
+            <div class="bg-slate-50 p-3.5 border-b border-slate-100 flex items-center gap-2">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-black text-slate-700">Obrolan Privat Mengenai Barang Ini</span>
+            </div>
+            <div id="box-percakapan" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/30"></div>
+            <div class="p-3 border-t border-slate-100 bg-white flex gap-2">
+                <input type="text" id="input-teks-chat" placeholder="Tulis pesan kesepakatan di sini..." class="w-full border border-slate-200 p-2.5 rounded-xl text-xs focus:outline-none focus:border-orange-500 bg-slate-50">
+                <button onclick="kirimPesanObrolan()" class="bg-slate-900 text-white px-4 rounded-xl font-bold text-xs shadow-sm cursor-pointer">Kirim</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const chatID = "{{ chat_id }}";
+        const userSekarang = "{{ username }}";
+        const itemLat = parseFloat("{{ item.lat }}") || -6.9667;
+        const itemLon = parseFloat("{{ item.lon }}") || 110.4167;
+        const namaBarang = "{{ item.nama }}";
+
+        document.addEventListener("DOMContentLoaded", function() {
+            try {
+                const mapDetail = L.map('map-detail', { zoomControl: false }).setView([itemLat, itemLon], 15);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapDetail);
+                L.marker([itemLat, itemLon]).addTo(mapDetail)
+                    .bindPopup(`<b class="text-xs capitalize">${namaBarang}</b>`)
+                    .openPopup();
+            } catch (error) { console.error(error); }
+        });
+
+        function muatPesanRealtime() {
+            if(chatID.includes("belum_ada_pencari")) {
+                document.getElementById('box-percakapan').innerHTML = '<p class="text-xs text-slate-400 text-center py-10">Belum ada user lain yang memulai obrolan mengenai barang ini.</p>';
+                return;
+            }
+
+            fetch(`/api/chat/${chatID}`).then(res => res.json()).then(data => {
+                const box = document.getElementById('box-percakapan');
+                let htmlChat = "";
+                if(data.messages && data.messages.length > 0) {
+                    data.messages.forEach(msg => {
+                        let isMe = msg.sender === userSekarang;
+                        if (isMe) {
+                            htmlChat += `
+                            <div class="flex flex-col items-end">
+                                <div class="bg-slate-900 text-white p-2.5 rounded-2xl rounded-tr-xs text-xs max-w-xs shadow-xs">
+                                    <p class="font-semibold">${msg.text}</p>
+                                </div>
+                                <span class="text-[9px] text-slate-400 mt-0.5">${msg.time} (Anda)</span>
+                            </div>`;
+                        } else {
+                            htmlChat += `
+                            <div class="flex flex-col items-start">
+                                <span class="text-[10px] text-slate-400 font-bold mb-0.5">@${msg.sender}</span>
+                                <div class="bg-white text-slate-800 border border-slate-200 p-2.5 rounded-2xl rounded-tl-xs text-xs max-w-xs shadow-xs">
+                                    <p>${msg.text}</p>
+                                </div>
+                                <span class="text-[9px] text-slate-300 mt-0.5">${msg.time}</span>
+                            </div>`;
+                        }
+                    });
+                } else {
+                    htmlChat = '<p class="text-xs text-slate-400 text-center py-10">Belum ada obrolan. Silakan kirim pesan.</p>';
+                }
+                
+                const scrollOtomatis = box.scrollTop + box.clientHeight >= box.scrollHeight - 60;
+                box.innerHTML = htmlChat;
+                if(scrollOtomatis || box.innerHTML.includes("Belum ada obrolan")) { box.scrollTop = box.scrollHeight; }
+            });
+        }
+
+        function kirimPesanObrolan() {
+            if(chatID.includes("belum_ada_pencari")) {
+                alert("Tidak dapat mengirim pesan ke diri sendiri.");
+                return;
+            }
+            const input = document.getElementById('input-teks-chat');
+            const txt = input.value.trim(); if(!txt) return;
+            fetch(`/api/chat/${chatID}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: txt })
+            }).then(() => { input.value = ""; muatPesanRealtime(); });
+        }
+
+        setInterval(muatPesanRealtime, 2000);
+        muatPesanRealtime();
+        document.getElementById('input-teks-chat').addEventListener('keypress', function(e) { if(e.key === 'Enter') kirimPesanObrolan(); });
+    </script>
+</body>
+</html>
