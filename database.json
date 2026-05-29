@@ -1,0 +1,126 @@
+{
+    "users": {
+        "yayoryayyy": "yayaajasih",
+        "ayam kfc": "kfcenak",
+        "yayoryayy": "aktif",
+        "naufan": "aktif"
+    },
+    "items": [
+        {
+            "id": 1779966536,
+            "status": "Ditemukan",
+            "nama": "jaket",
+            "deskripsi": "hitam merek adidas",
+            "lokasi_peta": "fakultas hukum universitas diponegoro",
+            "lat": -7.0512091,
+            "lon": 110.4365237,
+            "foto": "",
+            "penemu": "yayoryayyy"
+        },
+        {
+            "id": 1779967633,
+            "status": "Hilang",
+            "nama": "handphone ",
+            "deskripsi": "samsung a56 warna pink",
+            "lokasi_peta": "Jalan Taman Kradenan Asri, RW 11, Sukorejo, Gunung Pati, Semarang, Central Java, Java, 50221, Indonesia",
+            "lat": -7.022841114806868,
+            "lon": 110.39167947403435,
+            "foto": "cam_1779967633.jpg",
+            "penemu": "yayoryayyy"
+        }
+    ],
+    "chats": {
+        "1779966536_yayoryayyy": {
+            "messages": [
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo",
+                    "time": "18:13"
+                }
+            ]
+        },
+        "1779966536_yayoryayyy_ayam kfc": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo",
+                    "time": "18:14"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo, ini barang kamu ya?",
+                    "time": "18:22"
+                }
+            ]
+        },
+        "1779968195_yayoryayy_ayam kfc": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "hi itu barangku",
+                    "time": "18:41"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo",
+                    "time": "18:42"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu handphone ku",
+                    "time": "18:55"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu barangku",
+                    "time": "19:03"
+                }
+            ]
+        },
+        "1779969824_yayoryayyy_ayam kfc": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu barangku",
+                    "time": "19:04"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "akhirnya ketemu pemiliknya",
+                    "time": "19:16"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "hahahah iya",
+                    "time": "19:16"
+                }
+            ]
+        },
+        "1780067910": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu chargerku",
+                    "time": "22:19"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "ouh halo. iya aku menemukannya",
+                    "time": "22:19"
+                }
+            ],
+            "nama_barang": "charger"
+        },
+        "1779967633": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "hai itu handphone ku",
+                    "time": "22:22"
+                }
+            ],
+            "nama_barang": "handphone "
+        }
+    },
+    "last_seen": {}
+}
