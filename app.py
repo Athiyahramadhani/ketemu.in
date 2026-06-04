@@ -1,231 +1,154 @@
+import json
 import os
 import time
-import json
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 
 app = Flask(__name__)
-app.secret_key = "ketemuin_super_secret_key"
-DB_FILE = "database.json"
+app.secret_key = 'ketemuin_super_secret_key_123'
 
-def load_db():
+DB_FILE = 'database.json'
+
+# =====================================================================
+# FUNGSI PEMBANTU UNTUK BACA/TULIS DATABASE.JSON
+# =====================================================================
+def muat_data():
     if not os.path.exists(DB_FILE):
-        return {"users": {}, "items": [], "chats": {}}
-    with open(DB_FILE, "r") as f:
-        try:
+        return {"users": {}, "items": [], "chats": {}, "last_seen": {}}
+    try:
+        with open(DB_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
-        except:
-            return {"users": {}, "items": [], "chats": {}}
+    except Exception:
+        return {"users": {}, "items": [], "chats": {}, "last_seen": {}}
 
-def save_db(data):
-    with open(DB_FILE, "w") as f:
+def simpan_data(data):
+    with open(DB_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
 
+# =====================================================================
+# 1. ROUTE BERANDA / HOME (index.html)
+# =====================================================================
 @app.route('/')
 def index():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('index.html', username=session['username'])
 
+
+# =====================================================================
+# 2. ROUTE MASUK AKUN (login.html)
+# =====================================================================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'username' in session:
+        return redirect(url_for('index'))
+
     if request.method == 'POST':
-        username = request.form.get('username').strip().lower()
-        if username:
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        data = muat_data()
+        # Struktur database.json Anda menyimpan user sebagai {"username": "password"}
+        if username in data['users'] and data['users'][username] == password:
             session['username'] = username
-            db = load_db()
-            if username not in db['users']:
-                db['users'][username] = "aktif"
-                save_db(db)
             return redirect(url_for('index'))
+        else:
+            return "<h3>Username atau Password salah! <a href='/login'>Coba Lagi</a></h3>"
+
     return render_template('login.html')
 
+
+# =====================================================================
+# 3. ROUTE DAFTAR AKUN BARU (register.html)
+# =====================================================================
+@app.route('/daftar', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
+def daftar():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        konfirmasi_pass = request.form.get('password_confirmation')
+
+        if not username or not password:
+            return "<h3>Username dan Password wajib diisi! <a href='/daftar'>Kembali</a></h3>"
+
+        if password != konfirmasi_pass:
+            return "<h3>Error: Password tidak cocok! <a href='/daftar'>Kembali</a></h3>"
+
+        data = muat_data()
+        
+        # Cek apakah username sudah terdaftar
+        if username in data['users']:
+            return "<h3>Username sudah digunakan! <a href='/daftar'>Kembali</a></h3>"
+
+        # Simpan user baru sesuai format database.json Anda: "username": "password"
+        data['users'][username] = password
+        simpan_data(data)
+
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
+
+# =====================================================================
+# 4. ROUTE KELUAR AKUN / LOGOUT
+# =====================================================================
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+
+# =====================================================================
+# 5. API DATA FEED AGAR MAP DI INDEX.HTML BERFUNGSI
+# =====================================================================
+@app.route('/api/home-data')
+def home_data():
+    if 'username' not in session:
+        return jsonify({'status': 'unauthorized'}), 401
+    
+    data = muat_data()
+    # Mengembalikan data real dari database.json agar peta terisi barang hilang/temu
+    return jsonify({
+        'current_user': session['username'],
+        'items': data.get('items', [])
+    })
+
+
+# Handler penampung form tambah laporan baru dari index.html ke database.json
 @app.route('/tambah', methods=['POST'])
 def tambah_laporan():
     if 'username' not in session:
         return redirect(url_for('login'))
     
+    data = muat_data()
+    
     status = request.form.get('status')
-    nama = request.form.get('nama')
+    nama_barang = request.form.get('nama')
     deskripsi = request.form.get('deskripsi')
-    lokasi_peta = request.form.get('lokasi')
+    lokasi = request.form.get('lokasi')
     lat = request.form.get('latitude')
     lon = request.form.get('longitude')
-    nama_file_gambar = ""
     
-    upload_folder = os.path.join('static', 'uploads')
-    if not os.path.exists(upload_folder):
-        os.makedirs(upload_folder)
-        
-    file_foto = request.files.get('foto_barang_cam') or request.files.get('foto_barang')
-    if file_foto and file_foto.filename != '':
-        ext = os.path.splitext(file_foto.filename)[1]
-        nama_file_gambar = f"img_{int(time.time())}{ext}"
-        file_foto.save(os.path.join(upload_folder, nama_file_gambar))
-            
-    data_baru = {
-        "id": int(time.time()), 
-        "status": status, 
-        "nama": nama, 
+    # Buat ID unik berbasis timestamp angka seperti contoh di database.json Anda
+    id_baru = int(time.time())
+    
+    item_baru = {
+        "id": id_baru,
+        "status": status,
+        "nama": nama_barang,
         "deskripsi": deskripsi,
-        "lokasi_peta": lokasi_peta, 
-        "lat": float(lat) if lat else -6.9667, 
-        "lon": float(lon) if lon else 110.4167,
-        "foto": nama_file_gambar, 
+        "lokasi_peta": lokasi,
+        "lat": float(lat) if lat else 0.0,
+        "lon": float(lon) if lon else 0.0,
+        "foto": "", 
         "penemu": session['username']
     }
     
-    database = load_db()
-    database['items'].append(data_baru)
-    save_db(database)
+    data['items'].append(item_baru)
+    simpan_data(data)
+    
     return redirect(url_for('index'))
 
-# --- PERBAIKAN 1: PROSES HAPUS BARANG TANPA MENGHAPUS CHAT ---
-@app.route('/hapus/<int:item_id>')
-def hapus_laporan(item_id):
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    
-    db = load_db()
-    user_sekarang = session['username']
-    target_item = next((i for i in db['items'] if i['id'] == item_id), None)
-    
-    if target_item and target_item['penemu'] == user_sekarang:
-        # Foto dihapus dari server lokal untuk menghemat storage hdd
-        if target_item.get('foto'):
-            jalur_foto = os.path.join('static', 'uploads', target_item['foto'])
-            if os.path.exists(jalur_foto):
-                try: os.remove(jalur_foto)
-                except: pass
-                
-        # Hapus barang dari feed aktif papan utama
-        db['items'] = [i for i in db['items'] if i['id'] != item_id]
-        
-        # PERBAIKAN KRUSIAL: Data chat TIDAK KITA POP/HAPUS LAGI DI SINI
-        # db['chats'].pop(str(item_id), None) <-- Baris perusak chat ini sudah dibuang!
-        
-        save_db(db)
-        
-    return redirect(url_for('index'))
-
-# --- PERBAIKAN 2: HALAMAN DETAIL CHAT TETAP BISA DIAKSES WALAUPUN BARANG SUDAH DIHAPUS ---
-@app.route('/item/<int:item_id>')
-def detail_item(item_id):
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    
-    db = load_db()
-    target_item = next((i for i in db['items'] if i['id'] == item_id), None)
-    chat_id = str(item_id)
-    
-    # Jika barang sudah dihapus (selesai), buat data barang dummy agar halaman chat tidak crash
-    if not target_item:
-        # Coba ambil arsip nama dari metadata chat jika ada
-        nama_arsip = "Barang (Sudah Selesai)"
-        if chat_id in db['chats'] and "nama_barang" in db['chats'][chat_id]:
-            nama_arsip = f"{db['chats'][chat_id]['nama_barang']} (Selesai)"
-            
-        target_item = {
-            "id": item_id,
-            "nama": nama_arsip,
-            "status": "Selesai",
-            "deskripsi": "Laporan ini telah diselesaikan dan ditutup oleh penemu/pemilik barang.",
-            "lokasi_peta": "Arsip Riwayat Obrolan",
-            "lat": -6.9667, "lon": 110.4167, "foto": ""
-        }
-        
-    return render_template('detail.html', item=target_item, chat_id=chat_id, username=session['username'])
-
-# --- PERBAIKAN 3: INBOX TETAP MENAMPILKAN CHAT DENGAN AMAN ---
-@app.route('/api/home-data')
-def home_data():
-    if 'username' not in session: return jsonify({"items":[], "inbox":[]})
-    db = load_db()
-    user = session['username']
-    
-    inbox_list = []
-    for chat_id, data in db['chats'].items():
-        item_id = int(chat_id) if chat_id.isdigit() else None
-        if item_id:
-            item = next((i for i in db['items'] if i['id'] == item_id), None)
-            
-            # Ambil nama barang secara cerdas (dari item aktif atau dari backup database chat)
-            nama_barang_terdisplay = ""
-            if item:
-                nama_barang_terdisplay = item['nama']
-            elif "nama_barang" in data:
-                nama_barang_terdisplay = f"📦 {data['nama_barang']} (Selesai)"
-            else:
-                nama_barang_terdisplay = "📦 Barang Terarsipkan"
-
-            if data.get("messages"):
-                msg_terakhir = data["messages"][-1]
-                inbox_list.append({
-                    "chat_id": chat_id,
-                    "item_id": item_id,
-                    "nama_barang": nama_barang_terdisplay,
-                    "pengirim_terakhir": msg_terakhir["sender"],
-                    "teks_terakhir": msg_terakhir["text"],
-                    "total_messages": len(data["messages"])
-                })
-                
-    return jsonify({
-        "items": sorted(db['items'], key=lambda x: x['id'], reverse=True), 
-        "inbox": inbox_list,
-        "current_user": user
-    })
-
-@app.route('/api/chat/<chat_id>', methods=['GET', 'POST'])
-def handle_chat_api(chat_id):
-    if 'username' not in session: return jsonify({"status":"unauthorized"}), 401
-    db = load_db()
-    user = session['username']
-    
-    if chat_id not in db['chats']:
-        db['chats'][chat_id] = {"messages": [], "nama_barang": "Barang Kehilangan"}
-        
-    # Otomatis backup nama barang ke objek chat saat ada interaksi, untuk mencegah kehilangan data jika nanti dihapus
-    item_id = int(chat_id) if chat_id.isdigit() else None
-    if item_id:
-        item = next((i for i in db['items'] if i['id'] == item_id), None)
-        if item:
-            db['chats'][chat_id]['nama_barang'] = item['nama']
-        
-    if request.method == 'POST':
-        teks = request.json.get('text', '').strip()
-        if teks:
-            waktu = time.strftime("%H:%M")
-            db['chats'][chat_id]['messages'].append({
-                "sender": user, "text": teks, "time": waktu
-            })
-            save_db(db)
-        return jsonify({"status": "success"})
-        
-    return jsonify(db['chats'][chat_id])
-
-@app.route('/api/cari-lokasi')
-def cari_lokasi_api():
-    q = request.args.get('q', '').strip()
-    if not q: return jsonify({"status": "error"})
-        
-    import requests
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    }
-    try:
-        url = f"https://nominatim.openstreetmap.org/search?format=json&q={requests.utils.quote(q)}&countrycodes=id&limit=1"
-        response = requests.get(url, headers=headers, timeout=7)
-        hasil = response.json()
-        if hasil and len(hasil) > 0:
-            return jsonify({
-                "status": "success", "lat": float(hasil[0]['lat']), "lon": float(hasil[0]['lon']), "display_name": hasil[0]['display_name']
-            })
-    except: pass
-    return jsonify({"status": "not_found"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
