@@ -1,0 +1,433 @@
+{
+    "users": {
+        "yayoryayyy": "yayaajasih",
+        "ayam kfc": "kfcenak",
+        "yayoryayy": "aktif",
+        "naufan": "aktif",
+        "ayamkfc": "aktif",
+        "naylaazzura": "Naynay",
+        "naynay": "naynay",
+        "buana": "buanaarash",
+        "asolole": "asolole123",
+        "juara": "juara1",
+        "meja12": "meja123",
+        "akilaku": "akilaku1",
+        "ganteng": "ganteng1",
+        "theater": "theater20"
+    },
+    "items": [
+        {
+            "id": 1779966536,
+            "status": "Ditemukan",
+            "nama": "jaket",
+            "deskripsi": "hitam merek adidas",
+            "lokasi_peta": "fakultas hukum universitas diponegoro",
+            "lat": -7.0512091,
+            "lon": 110.4365237,
+            "foto": "",
+            "penemu": "yayoryayyy"
+        },
+        {
+            "id": 1780545697,
+            "status": "Ditemukan",
+            "nama": "sandal",
+            "deskripsi": "warna hitam ",
+            "lokasi_peta": "Gedung Kuliah Teknik Mesin, Jalan Profesor Haji Soedarto, Universitas Diponegoro, Tembalang, Kota Semarang, Jawa Tengah, Jawa, 50275, Indonesia",
+            "lat": -7.0506221,
+            "lon": 110.4416589,
+            "foto": "img_1780545697.jpg",
+            "penemu": "ayamkfc"
+        },
+        {
+            "id": 1780550436,
+            "status": "Ditemukan",
+            "nama": "samsung s23 ultra",
+            "deskripsi": "warna hitam, tanpa casing",
+            "lokasi_peta": "Muladi Dome, Jalan Profesor Soedarto, Politeknik Negeri Semarang, Tembalang, Kota Semarang, Jawa Tengah, Jawa, 50275, Indonesia",
+            "lat": -7.0534337,
+            "lon": 110.4330356,
+            "foto": "img_1780550436.jpeg",
+            "penemu": "ayamkfc"
+        },
+        {
+            "id": 1780550436,
+            "status": "Ditemukan",
+            "nama": "samsung s23 ultra",
+            "deskripsi": "warna hitam, tanpa casing",
+            "lokasi_peta": "Muladi Dome, Jalan Profesor Soedarto, Politeknik Negeri Semarang, Tembalang, Kota Semarang, Jawa Tengah, Jawa, 50275, Indonesia",
+            "lat": -7.0534337,
+            "lon": 110.4330356,
+            "foto": "img_1780550436.jpeg",
+            "penemu": "ayamkfc"
+        },
+        {
+            "id": 1780558295,
+            "status": "Hilang",
+            "nama": "Tas hitam",
+            "deskripsi": "Warna hitam, ada gantungan kunci, dan sudah jorok",
+            "lokasi_peta": "Muladi Dome, Jalan Banyu Putih Raya, Politeknik Negeri Semarang, Tembalang, Kota Semarang, Jawa Tengah, Jawa, 50275, Indonesia",
+            "lat": -7.0534337,
+            "lon": 110.4330356,
+            "foto": "img_1780558295.jpg",
+            "penemu": "akilaku"
+        },
+        {
+            "id": 1780558472,
+            "status": "Ditemukan",
+            "nama": "Tas hitam",
+            "deskripsi": "Berwarna hitam",
+            "lokasi_peta": "Muladi Dome, Jalan Banyu Putih Raya, Politeknik Negeri Semarang, Tembalang, Kota Semarang, Jawa Tengah, Jawa, 50275, Indonesia",
+            "lat": -7.0534337,
+            "lon": 110.4330356,
+            "foto": "img_1780558472.jpg",
+            "penemu": "ganteng"
+        },
+        {
+            "id": 1780754470,
+            "status": "Ditemukan",
+            "nama": "kunci motor",
+            "deskripsi": "kunci motor honda",
+            "lokasi_peta": "Gedung Fakultas Hukum, Jalan Profesor Haji Soedarto, Universitas Diponegoro, Tembalang, Kota Semarang, Jawa Tengah, Jawa, 50275, Indonesia",
+            "lat": -7.0512091,
+            "lon": 110.4365237,
+            "foto": "",
+            "penemu": "yayoryayyy"
+        }
+    ],
+    "chats": {
+        "1779966536_yayoryayyy": {
+            "messages": [
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo",
+                    "time": "18:13"
+                }
+            ]
+        },
+        "1779966536_yayoryayyy_ayam kfc": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo",
+                    "time": "18:14"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo, ini barang kamu ya?",
+                    "time": "18:22"
+                }
+            ]
+        },
+        "1779968195_yayoryayy_ayam kfc": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "hi itu barangku",
+                    "time": "18:41"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo",
+                    "time": "18:42"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu handphone ku",
+                    "time": "18:55"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu barangku",
+                    "time": "19:03"
+                }
+            ]
+        },
+        "1779969824_yayoryayyy_ayam kfc": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu barangku",
+                    "time": "19:04"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "akhirnya ketemu pemiliknya",
+                    "time": "19:16"
+                },
+                {
+                    "sender": "ayam kfc",
+                    "text": "hahahah iya",
+                    "time": "19:16"
+                }
+            ]
+        },
+        "1780067910": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu chargerku",
+                    "time": "22:19",
+                    "read_by": [
+                        "ayam kfc",
+                        "yayoryayyy"
+                    ]
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "ouh halo. iya aku menemukannya",
+                    "time": "22:19",
+                    "read_by": [
+                        "yayoryayyy"
+                    ]
+                }
+            ],
+            "nama_barang": "charger"
+        },
+        "1779967633": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "hai itu handphone ku",
+                    "time": "22:22"
+                }
+            ],
+            "nama_barang": "handphone "
+        },
+        "1780280220": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo itu punyaku",
+                    "time": "09:22"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "ouh hai",
+                    "time": "09:22"
+                }
+            ],
+            "nama_barang": "strawbeerry "
+        },
+        "chat_1779967633_yayoryayyy_ayam kfc": {
+            "messages": [
+                {
+                    "sender": "ayam kfc",
+                    "text": "halo]",
+                    "time": "22:25"
+                }
+            ],
+            "nama_barang": "handphone "
+        },
+        "1780545697": {
+            "messages": [
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo",
+                    "time": "11:01"
+                },
+                {
+                    "sender": "ayamkfc",
+                    "text": "hai",
+                    "time": "11:02"
+                }
+            ],
+            "nama_barang": "sandal"
+        },
+        "1780550436": {
+            "messages": [
+                {
+                    "sender": "asolole",
+                    "text": "halo",
+                    "time": "12:46"
+                }
+            ],
+            "nama_barang": "samsung s23 ultra"
+        },
+        "1780558472": {
+            "messages": [
+                {
+                    "sender": "yayoryayyy",
+                    "text": "hai",
+                    "time": "14:38"
+                }
+            ],
+            "nama_barang": "Tas hitam"
+        },
+        "1780558295": {
+            "messages": [
+                {
+                    "sender": "yayoryayyy",
+                    "text": "hai",
+                    "time": "14:39"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "aku menemukan tas hitam",
+                    "time": "14:40"
+                },
+                {
+                    "sender": "ganteng",
+                    "text": "Oh ya, kalo aku mau ambil barangnya ketemuan dimana ya?",
+                    "time": "14:42"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "aku hari ini selesai kelas jam 3 sore, kalau mau ambil jam 3",
+                    "time": "14:42"
+                },
+                {
+                    "sender": "ganteng",
+                    "text": "Okay boleh, terimakasih",
+                    "time": "14:43"
+                }
+            ],
+            "nama_barang": "Tas hitam"
+        },
+        "1780755213": {
+            "messages": [
+                {
+                    "sender": "theater",
+                    "text": "halo aku menemukan jaket kamu",
+                    "time": "21:14"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo, terimakasih sudah menukan jaketku",
+                    "time": "21:14"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "kamu sekarang masih berada diposisi kah",
+                    "time": "21:14"
+                },
+                {
+                    "sender": "theater",
+                    "text": "iya",
+                    "time": "21:15"
+                }
+            ],
+            "nama_barang": "jaket"
+        },
+        "1780755486": {
+            "messages": [
+                {
+                    "sender": "theater",
+                    "text": "halo aku menemukan barangmu",
+                    "time": "21:18"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo, aku bisa langsung ambil gak ya barangnya",
+                    "time": "21:19"
+                },
+                {
+                    "sender": "theater",
+                    "text": "boleh aku masih tempat kejadian",
+                    "time": "21:19"
+                }
+            ],
+            "nama_barang": "handphone "
+        },
+        "1780766249": {
+            "messages": [
+                {
+                    "sender": "theater",
+                    "text": "halo aku menemukan barangmu",
+                    "time": "00:18"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "akhirnya barangku ketemu",
+                    "time": "00:20"
+                },
+                {
+                    "sender": "theater",
+                    "text": "aku masih dilokasi kalau kamu mau ngambil",
+                    "time": "00:20"
+                }
+            ],
+            "nama_barang": "botol minum"
+        },
+        "1780767119": {
+            "messages": [
+                {
+                    "sender": "theater",
+                    "text": "halo aku menemukan botolmu",
+                    "time": "00:32"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo, apakah aku bisa ambil sekarang",
+                    "time": "00:33"
+                },
+                {
+                    "sender": "theater",
+                    "text": "bisa",
+                    "time": "00:33"
+                }
+            ],
+            "nama_barang": "botol minum"
+        },
+        "1780767487": {
+            "messages": [
+                {
+                    "sender": "theater",
+                    "text": "halo aku menemukan botol mu",
+                    "time": "00:38"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo bolehkah aku ambil sekarang",
+                    "time": "00:38"
+                },
+                {
+                    "sender": "theater",
+                    "text": "boleh",
+                    "time": "00:38"
+                }
+            ],
+            "nama_barang": "botol minum"
+        },
+        "1780768050": {
+            "messages": [
+                {
+                    "sender": "theater",
+                    "text": "halo aku menemukan barangmu",
+                    "time": "00:47"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo, bolehkah aku ambil sekarang botolnya",
+                    "time": "00:48"
+                },
+                {
+                    "sender": "theater",
+                    "text": "boleh",
+                    "time": "00:48"
+                }
+            ],
+            "nama_barang": "botol minum"
+        },
+        "1780768411": {
+            "messages": [
+                {
+                    "sender": "theater",
+                    "text": "halo aku menemukan barangmu",
+                    "time": "00:53"
+                },
+                {
+                    "sender": "yayoryayyy",
+                    "text": "halo, bolehkah aku ambil botolnya sekarang",
+                    "time": "00:54"
+                },
+                {
+                    "sender": "theater",
+                    "text": "boleh",
+                    "time": "00:54"
+                }
+            ],
+            "nama_barang": "botol minum"
+        }
+    },
+    "last_seen": {}
+}
