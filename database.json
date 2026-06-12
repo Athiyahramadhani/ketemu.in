@@ -17,17 +17,6 @@
     },
     "items": [
         {
-            "id": 1779966536,
-            "status": "Ditemukan",
-            "nama": "jaket",
-            "deskripsi": "hitam merek adidas",
-            "lokasi_peta": "fakultas hukum universitas diponegoro",
-            "lat": -7.0512091,
-            "lon": 110.4365237,
-            "foto": "",
-            "penemu": "yayoryayyy"
-        },
-        {
             "id": 1780545697,
             "status": "Ditemukan",
             "nama": "sandal",
@@ -81,17 +70,6 @@
             "lon": 110.4330356,
             "foto": "img_1780558472.jpg",
             "penemu": "ganteng"
-        },
-        {
-            "id": 1780754470,
-            "status": "Ditemukan",
-            "nama": "kunci motor",
-            "deskripsi": "kunci motor honda",
-            "lokasi_peta": "Gedung Fakultas Hukum, Jalan Profesor Haji Soedarto, Universitas Diponegoro, Tembalang, Kota Semarang, Jawa Tengah, Jawa, 50275, Indonesia",
-            "lat": -7.0512091,
-            "lon": 110.4365237,
-            "foto": "",
-            "penemu": "yayoryayyy"
         }
     ],
     "chats": {
