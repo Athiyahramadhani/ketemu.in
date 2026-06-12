@@ -1,15 +1,25 @@
 import os
 import time
 import json
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_from_directory
 
 app = Flask(__name__)
 app.secret_key = "ketemuin_super_secret_key"
-DB_FILE = "database.json"
+
+# 🛠️ TRIK VERCEL: Gunakan folder /tmp yang diizinkan untuk menulis file
+DB_FILE = "/tmp/database.json"
 
 def load_db():
+    # Jika database di folder /tmp belum ada, salin/baca data awal dari database.json bawaan GitHub
     if not os.path.exists(DB_FILE):
+        if os.path.exists("database.json"):
+            try:
+                with open("database.json", "r") as f:
+                    return json.load(f)
+            except:
+                pass
         return {"users": {}, "items": [], "chats": {}}
+    
     with open(DB_FILE, "r") as f:
         try:
             return json.load(f)
@@ -19,6 +29,11 @@ def load_db():
 def save_db(data):
     with open(DB_FILE, "w") as f:
         json.dump(data, f, indent=4)
+
+# 🛠️ TRIK VERCEL: Route khusus agar gambar yang di-upload ke /tmp tetap bisa ditampilkan di website
+@app.route('/static/uploads/<filename>')
+def serve_uploaded_file(filename):
+    return send_from_directory('/tmp/uploads', filename)
 
 @app.route('/')
 def index():
@@ -31,16 +46,14 @@ def index():
 def login():
     if request.method == 'POST':
         username = request.form.get('username').strip().lower()
-        password = request.form.get('password') # Mengambil data password dari login.html
+        password = request.form.get('password')
         
         if username and password:
             db = load_db()
-            # Memvalidasi apakah username ada di database dan password-nya cocok
             if username in db['users'] and db['users'][username] == password:
                 session['username'] = username
                 return redirect(url_for('index'))
             else:
-                # Mengembalikan pesan error jika tidak cocok
                 return "Username atau Password salah! <a href='/login'>Kembali</a>", 401
                 
     return render_template('login.html')
@@ -50,19 +63,16 @@ def login():
 def daftar():
     if request.method == 'POST':
         username = request.form.get('username').strip().lower()
-        password = request.form.get('password') # Mengambil data password dari register.html
+        password = request.form.get('password')
         
         if username and password:
             db = load_db()
-            # Validasi jika username ternyata sudah pernah terdaftar
             if username in db['users']:
                 return "Username sudah terdaftar! Silakan gunakan username lain. <a href='/daftar'>Kembali</a>", 400
             
-            # Simpan username dan password baru ke database
             db['users'][username] = password
             save_db(db)
             
-            # Setelah sukses mendaftar, langsung otomatis set session/login
             session['username'] = username
             return redirect(url_for('index'))
             
@@ -86,9 +96,10 @@ def tambah_laporan():
     lon = request.form.get('longitude')
     nama_file_gambar = ""
     
-    upload_folder = os.path.join('static', 'uploads')
+    # 🛠️ TRIK VERCEL: Simpan foto ke folder sementara /tmp/uploads
+    upload_folder = "/tmp/uploads"
     if not os.path.exists(upload_folder):
-        os.makedirs(upload_folder)
+        os.makedirs(upload_folder, exist_ok=True)
         
     file_foto = request.files.get('foto_barang_cam') or request.files.get('foto_barang')
     if file_foto and file_foto.filename != '':
@@ -125,7 +136,8 @@ def hapus_laporan(item_id):
     
     if target_item and target_item['penemu'] == user_sekarang:
         if target_item.get('foto'):
-            jalur_foto = os.path.join('static', 'uploads', target_item['foto'])
+            # 🛠️ TRIK VERCEL: Sesuaikan jalur hapus foto ke /tmp/uploads
+            jalur_foto = os.path.join('/tmp/uploads', target_item['foto'])
             if os.path.exists(jalur_foto):
                 try: os.remove(jalur_foto)
                 except: pass
